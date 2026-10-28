@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useReducedMotion, useScroll, useTransform, AnimatePresence } from "motion/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import {
   CalendarPlus,
   Clock,
@@ -25,6 +25,7 @@ import { Countdown } from "@/components/Countdown";
 import { ParticlesCanvas } from "@/components/ParticlesCanvas";
 import { AudioPlayer, WEDDING_SONG_URL } from "@/components/AudioPlayer";
 import { TimelineSection } from "@/components/TimelineSection";
+import { IntroGate } from "@/components/IntroGate";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,7 +36,10 @@ export const Route = createFileRoute("/")({
         content:
           "With the blessings of ALLAH and the love & support of our families, we cordially invite you to the Engagement Ceremony of Muskan and Sufiyan on Friday, 30 October 2026 at Raj Celebration, Nagpur.",
       },
-      { property: "og:title", content: "Engagement Ceremony of Muskan & Sufiyan | 30 October 2026" },
+      {
+        property: "og:title",
+        content: "Engagement Ceremony of Muskan & Sufiyan | 30 October 2026",
+      },
       {
         property: "og:description",
         content:
@@ -48,7 +52,10 @@ export const Route = createFileRoute("/")({
       { property: "og:image:alt", content: "Engagement Ceremony of Muskan and Sufiyan" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Engagement Ceremony of Muskan & Sufiyan | 30 October 2026" },
+      {
+        name: "twitter:title",
+        content: "Engagement Ceremony of Muskan & Sufiyan | 30 October 2026",
+      },
       {
         name: "twitter:description",
         content:
@@ -62,7 +69,8 @@ export const Route = createFileRoute("/")({
 
 const ENGAGEMENT_DATE = new Date("2026-10-30T20:00:00+05:30");
 const VENUE_NAME = "Raj Celebration";
-const VENUE_ADDRESS = "Raj Celebration, Zafar Nagar Near By Rathod Lawn Opp. Start Motors, Nagpur, Maharashtra 440013";
+const VENUE_ADDRESS =
+  "Raj Celebration, Zafar Nagar Near By Rathod Lawn Opp. Start Motors, Nagpur, Maharashtra 440013";
 const MAPS_URL = "https://maps.app.goo.gl/b5oY7jQMinGnYbjc6?g_st=iw";
 
 const rise = {
@@ -336,7 +344,9 @@ function Hero() {
   );
 }
 
-{/* 3 Golden Arches Section - Exactly as in the user's card */}
+{
+  /* 3 Golden Arches Section - Exactly as in the user's card */
+}
 function ThreeArchesSection() {
   return (
     <section className="relative mx-auto max-w-lg px-3 min-[400px]:px-4 py-8">
@@ -410,7 +420,9 @@ function ThreeArchesSection() {
   );
 }
 
-{/* Digital Invitation Card Showcase with Zoom View */}
+{
+  /* Digital Invitation Card Showcase with Zoom View */
+}
 function DigitalCardShowcase() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -427,8 +439,10 @@ function DigitalCardShowcase() {
           <div className="gold-rule mx-auto my-3.5 w-24" />
 
           {/* Card Preview Container */}
-          <div className="relative mx-auto mt-4 max-w-xs overflow-hidden rounded-2xl border-2 border-gold/50 shadow-2xl group cursor-pointer"
-               onClick={() => setIsOpen(true)}>
+          <div
+            className="relative mx-auto mt-4 max-w-xs overflow-hidden rounded-2xl border-2 border-gold/50 shadow-2xl group cursor-pointer"
+            onClick={() => setIsOpen(true)}
+          >
             <img
               src="/images/invitation-card.jpg"
               alt="Engagement Ceremony Invitation Card of Muskan & Sufiyan"
@@ -510,11 +524,13 @@ function QuranicVerse() {
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-gold/10 via-transparent to-gold/10" />
           <Sparkles className="mx-auto h-5 w-5 text-gold mb-2.5" />
           <p className="font-arabic text-lg min-[360px]:text-xl sm:text-3xl leading-loose text-gold-bright drop-shadow-[0_2px_12px_rgba(247,230,184,0.4)]">
-            وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
+            وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا
+            وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً
           </p>
           <div className="gold-rule mx-auto my-4 sm:my-5 w-24 sm:w-28" />
           <p className="font-display text-xs min-[360px]:text-sm sm:text-base italic leading-relaxed text-cream/90">
-            “And of His signs is that He created for you from yourselves mates that you may find tranquility in them; and He placed between you affection and mercy.”
+            “And of His signs is that He created for you from yourselves mates that you may find
+            tranquility in them; and He placed between you affection and mercy.”
           </p>
           <p className="mt-2.5 text-[0.62rem] uppercase tracking-[0.3em] font-semibold text-gold">
             Surah Ar-Rum · 30:21
@@ -643,15 +659,17 @@ function Details() {
   const shareInvitation = () => {
     const text = `You are warmly invited to the Engagement Ceremony of Muskan and Sufiyan on Friday, 30 October 2026 at Raj Celebration, Nagpur.\n\nVenue: ${MAPS_URL}`;
     if (navigator.share) {
-      navigator.share({
-        title: "Muskan & Sufiyan — Engagement Ceremony Invitation",
-        text,
-        url: window.location.href,
-      }).catch(() => {});
+      navigator
+        .share({
+          title: "Muskan & Sufiyan — Engagement Ceremony Invitation",
+          text,
+          url: window.location.href,
+        })
+        .catch(() => {});
     } else {
       window.open(
         `https://api.whatsapp.com/send?text=${encodeURIComponent(text + "\n" + window.location.href)}`,
-        "_blank"
+        "_blank",
       );
     }
   };
@@ -692,7 +710,9 @@ function Details() {
             </p>
             <p className="flex items-start justify-center gap-1.5 text-xs sm:text-sm leading-relaxed text-cream/80 max-w-sm mx-auto">
               <MapPin className="mt-0.5 h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0 text-gold" />
-              <span>Zafar Nagar Near By Rathod Lawn Opp. Start Motors, Nagpur, Maharashtra 440013</span>
+              <span>
+                Zafar Nagar Near By Rathod Lawn Opp. Start Motors, Nagpur, Maharashtra 440013
+              </span>
             </p>
           </div>
 
@@ -751,9 +771,12 @@ function Details() {
           </div>
 
           <div className="p-4 min-[380px]:p-5 sm:p-6">
-            <p className="font-display text-lg sm:text-xl font-semibold text-cream">Raj Celebration</p>
+            <p className="font-display text-lg sm:text-xl font-semibold text-cream">
+              Raj Celebration
+            </p>
             <p className="mt-1 text-xs text-cream/70 leading-relaxed">
-              Located at Zafar Nagar, Anant Nagar, Near Rathod Lawn, Opposite Start Motors, Nagpur. Easy access &amp; ample parking.
+              Located at Zafar Nagar, Anant Nagar, Near Rathod Lawn, Opposite Start Motors, Nagpur.
+              Easy access &amp; ample parking.
             </p>
 
             <div className="mt-4 flex flex-col min-[380px]:flex-row gap-2.5 sm:gap-3">
@@ -819,7 +842,8 @@ function Footer() {
         />
         <Reveal className="mt-5">
           <p className="font-display text-xl sm:text-3xl italic leading-relaxed text-cream/90 px-2">
-            “May Allah bless this union, fill your lives with joy, harmony, prosperity, and everlasting happiness.”
+            “May Allah bless this union, fill your lives with joy, harmony, prosperity, and
+            everlasting happiness.”
           </p>
         </Reveal>
         <Reveal delay={0.1}>
@@ -837,7 +861,8 @@ function Footer() {
         <div className="gold-rule mx-auto mt-6 sm:mt-8 w-24" />
 
         <p className="mt-5 inline-flex items-center gap-1.5 text-[0.58rem] min-[360px]:text-[0.62rem] uppercase tracking-[0.25em] text-cream/50">
-          Crafted with <Heart className="h-3 w-3 fill-rose text-rose" /> with prayers for the families
+          Crafted with <Heart className="h-3 w-3 fill-rose text-rose" /> with prayers for the
+          families
         </p>
 
         <div>
@@ -857,20 +882,54 @@ function Footer() {
 }
 
 function Invitation() {
-  return (
-    <main className="min-h-screen bg-emerald-deep relative selection:bg-gold selection:text-ink overflow-x-clip">
-      <ParticlesCanvas />
-      <AudioPlayer />
+  const [isGateOpen, setIsGateOpen] = useState(false);
+  const [isOpening, setIsOpening] = useState(false);
 
-      <Hero />
-      <ThreeArchesSection />
-      <DigitalCardShowcase />
-      <QuranicVerse />
-      <CountdownSection />
-      <TimelineSection />
-      <FamilyAndCompliments />
-      <Details />
-      <Footer />
-    </main>
+  useEffect(() => {
+    if (!isGateOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isGateOpen]);
+
+  return (
+    <>
+      <AnimatePresence mode="wait">
+        {!isGateOpen && (
+          <IntroGate
+            key="intro-opening-gate"
+            onOpening={() => setIsOpening(true)}
+            onOpened={() => setIsGateOpen(true)}
+          />
+        )}
+      </AnimatePresence>
+
+      <motion.main
+        initial={{ opacity: 0.92, scale: 1.02 }}
+        animate={{
+          opacity: 1,
+          scale: isOpening || isGateOpen ? 1 : 1.02,
+        }}
+        transition={{ duration: 1.35, ease: [0.65, 0, 0.35, 1] }}
+        className="min-h-screen bg-emerald-deep relative selection:bg-gold selection:text-ink overflow-x-clip"
+      >
+        <ParticlesCanvas />
+        <AudioPlayer />
+
+        <Hero />
+        <ThreeArchesSection />
+        <DigitalCardShowcase />
+        <QuranicVerse />
+        <CountdownSection />
+        <TimelineSection />
+        <FamilyAndCompliments />
+        <Details />
+        <Footer />
+      </motion.main>
+    </>
   );
 }

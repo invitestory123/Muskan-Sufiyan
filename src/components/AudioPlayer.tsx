@@ -19,6 +19,7 @@ export function AudioPlayer() {
   const [isReady, setIsReady] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const playerRef = useRef<any>(null);
+  const pendingPlayRef = useRef(false);
 
   useEffect(() => {
     // 1. Inject YouTube IFrame API script if not present
@@ -55,6 +56,15 @@ export function AudioPlayer() {
           events: {
             onReady: () => {
               setIsReady(true);
+              if (pendingPlayRef.current && playerRef.current) {
+                try {
+                  playerRef.current.playVideo();
+                  setIsPlaying(true);
+                  pendingPlayRef.current = false;
+                } catch {
+                  // retry handled
+                }
+              }
             },
             onStateChange: (event: { data: number }) => {
               // YT.PlayerState: 1 = PLAYING, 2 = PAUSED, 0 = ENDED, 3 = BUFFERING
@@ -81,14 +91,29 @@ export function AudioPlayer() {
       };
     }
 
-    // Listen to global toggle event (e.g. from Hero section button)
+    // Listen to global toggle event
     const handleGlobalToggle = () => {
       togglePlay();
     };
+    const handleGlobalPlay = () => {
+      if (playerRef.current && typeof playerRef.current.playVideo === "function") {
+        try {
+          playerRef.current.playVideo();
+          setIsPlaying(true);
+        } catch {
+          // safe
+        }
+      } else {
+        pendingPlayRef.current = true;
+      }
+    };
+
     window.addEventListener("toggle-wedding-music", handleGlobalToggle);
+    window.addEventListener("play-wedding-music", handleGlobalPlay);
 
     return () => {
       window.removeEventListener("toggle-wedding-music", handleGlobalToggle);
+      window.removeEventListener("play-wedding-music", handleGlobalPlay);
       try {
         if (playerRef.current && typeof playerRef.current.destroy === "function") {
           playerRef.current.destroy();
@@ -102,17 +127,7 @@ export function AudioPlayer() {
 
   const togglePlay = () => {
     if (!playerRef.current || !isReady) {
-      // If player is not yet ready, open YouTube track in new tab or wait
-      try {
-        if (playerRef.current && typeof playerRef.current.playVideo === "function") {
-          playerRef.current.playVideo();
-          setIsPlaying(true);
-          return;
-        }
-      } catch {
-        // fallback
-      }
-      window.open(WEDDING_SONG_URL, "_blank");
+      pendingPlayRef.current = !pendingPlayRef.current;
       return;
     }
 
@@ -125,7 +140,7 @@ export function AudioPlayer() {
         setIsPlaying(true);
       }
     } catch {
-      window.open(WEDDING_SONG_URL, "_blank");
+      // safe fallback
     }
   };
 
@@ -200,7 +215,11 @@ export function AudioPlayer() {
           </div>
 
           <div className="ml-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-gold/20 text-gold-bright border border-gold/40">
-            {isPlaying ? <Pause className="h-3 w-3 fill-current" /> : <Play className="h-3 w-3 fill-current ml-0.5" />}
+            {isPlaying ? (
+              <Pause className="h-3 w-3 fill-current" />
+            ) : (
+              <Play className="h-3 w-3 fill-current ml-0.5" />
+            )}
           </div>
         </motion.button>
 
